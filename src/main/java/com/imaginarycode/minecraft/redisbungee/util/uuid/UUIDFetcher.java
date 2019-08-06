@@ -2,7 +2,11 @@ package com.imaginarycode.minecraft.redisbungee.util.uuid;
 
 import com.google.common.collect.ImmutableList;
 import com.imaginarycode.minecraft.redisbungee.RedisBungee;
-import com.squareup.okhttp.*;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.ResponseBody;
 import lombok.Setter;
 
 import java.util.HashMap;
@@ -16,11 +20,10 @@ public class UUIDFetcher implements Callable<Map<String, UUID>> {
     private static final double PROFILES_PER_REQUEST = 100;
     private static final String PROFILE_URL = "https://api.mojang.com/profiles/minecraft";
     private static final MediaType JSON = MediaType.parse("application/json");
-    private final List<String> names;
-    private final boolean rateLimiting;
-
     @Setter
     private static OkHttpClient httpClient;
+    private final List<String> names;
+    private final boolean rateLimiting;
 
     private UUIDFetcher(List<String> names, boolean rateLimiting) {
         this.names = ImmutableList.copyOf(names);
